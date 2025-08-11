@@ -1,0 +1,91 @@
+import { i as p, a as u, R as f, M as b, x as d } from "./index-B3oWiE09.js";
+import { n as g, r as m, c as M } from "./if-defined-EXyKF6lo.js";
+import { T as l } from "./index-BFrCxwdF.js";
+const x = {
+    interpolate(i, e, n) {
+      if (i.length !== 2 || e.length !== 2)
+        throw new Error(
+          "inputRange and outputRange must be an array of length 2"
+        );
+      const o = i[0] || 0,
+        r = i[1] || 0,
+        t = e[0] || 0,
+        s = e[1] || 0;
+      return n < o ? t : n > r ? s : ((s - t) / (r - o)) * (n - o) + t;
+    },
+  },
+  w = p`
+  :host {
+    width: 100%;
+    display: block;
+  }
+`;
+var a = function (i, e, n, o) {
+  var r = arguments.length,
+    t =
+      r < 3 ? e : o === null ? (o = Object.getOwnPropertyDescriptor(e, n)) : o,
+    s;
+  if (typeof Reflect == "object" && typeof Reflect.decorate == "function")
+    t = Reflect.decorate(i, e, n, o);
+  else
+    for (var c = i.length - 1; c >= 0; c--)
+      (s = i[c]) && (t = (r < 3 ? s(t) : r > 3 ? s(e, n, t) : s(e, n)) || t);
+  return r > 3 && t && Object.defineProperty(e, n, t), t;
+};
+let h = class extends u {
+  constructor() {
+    super(),
+      (this.unsubscribe = []),
+      (this.text = ""),
+      (this.open = l.state.open),
+      this.unsubscribe.push(
+        f.subscribeKey("view", () => {
+          l.hide();
+        }),
+        b.subscribeKey("open", (e) => {
+          e || l.hide();
+        }),
+        l.subscribeKey("open", (e) => {
+          this.open = e;
+        })
+      );
+  }
+  disconnectedCallback() {
+    this.unsubscribe.forEach((e) => e()), l.hide();
+  }
+  render() {
+    return d`
+      <div
+        @pointermove=${this.onMouseEnter.bind(this)}
+        @pointerleave=${this.onMouseLeave.bind(this)}
+      >
+        ${this.renderChildren()}
+      </div>
+    `;
+  }
+  renderChildren() {
+    return d`<slot></slot> `;
+  }
+  onMouseEnter() {
+    const e = this.getBoundingClientRect();
+    this.open ||
+      l.showTooltip({
+        message: this.text,
+        triggerRect: {
+          width: e.width,
+          height: e.height,
+          left: e.left,
+          top: e.top,
+        },
+        variant: "shade",
+      });
+  }
+  onMouseLeave(e) {
+    this.contains(e.relatedTarget) || l.hide();
+  }
+};
+h.styles = [w];
+a([g()], h.prototype, "text", void 0);
+a([m()], h.prototype, "open", void 0);
+h = a([M("w3m-tooltip-trigger")], h);
+export { x as M };
